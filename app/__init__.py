@@ -14,6 +14,8 @@ def create_app(test_config=None):
     app.jinja_env.filters['format_date'] = filters.format_date
     app.jinja_env.filters['format_plural'] = filters.format_plural
 
+    app.run(debug=True)
+
     # register routes
     app.register_blueprint(home)
     app.register_blueprint(dashboard)
