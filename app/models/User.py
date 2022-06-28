@@ -5,24 +5,31 @@ import bcrypt
 
 salt = bcrypt.gensalt()
 
+
 class User(Base):
-  __tablename__ = 'users'
-  id = Column(Integer, primary_key=True)
-  username = Column(String(50), nullable=False)
-  email = Column(String(50), nullable=False, unique=True)
-  password = Column(String(100), nullable=False)
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    username = Column(String(50), nullable=False)
+    email = Column(String(50), nullable=False, unique=True)
+    password = Column(String(100), nullable=False)
 
-  @validates('email')
-  def validate_email(self, key, email):
-    # make sure email address contains @ character
-    assert '@' in email
+    @validates('email')
+    def validate_email(self, key, email):
+        # make sure email address contains @ character
+        assert '@' in email
 
-    return email
+        return email
 
-  @validates('password')
-  def validate_password(self, key, password):
-    # make sure password is at least 4 characters
-    assert len(password) > 4
+    @validates('password')
+    def validate_password(self, key, password):
+        # make sure password is at least 4 characters
+        assert len(password) > 4
 
-    # encrypt password
-    return bcrypt.hashpw(password.encode('utf-8'), salt)
+        # encrypt password
+        return bcrypt.hashpw(password.encode('utf-8'), salt)
+
+    def verify_password(self, password):
+        return bcrypt.checkpw(
+            password.encode('utf-8'),
+            self.password.encode('utf-8')
+        )

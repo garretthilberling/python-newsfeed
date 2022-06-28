@@ -1,32 +1,43 @@
-from flask import Blueprint,render_template
+from flask import Blueprint, render_template, session, redirect
 from app.models import Post
 from app.db import get_db
 
 bp = Blueprint('home', __name__, url_prefix='/')
 
 # homepage route
+
+
 @bp.route('/')
 def index():
     # get all posts
     db = get_db()
     posts = (
         db
-            .query(Post)
-            .order_by(Post.created_at.desc())
-            .all()
-        )
+        .query(Post)
+        .order_by(Post.created_at.desc())
+        .all()
+    )
 
     return render_template(
         'homepage.html',
-        posts=posts
+        posts=posts,
+        loggedIn=session.get('loggedIn')
     )
 
 # user login route
+
+
 @bp.route('/login')
 def login():
-    return render_template('login.html')
+    # not logged in yet
+    if session.get('loggedIn') is None:
+        return render_template('login.html')
+
+    return redirect('/dashboard')
 
 # single post route
+
+
 @bp.route('/post/<id>')
 def single(id):
     # get single post by id
@@ -36,5 +47,6 @@ def single(id):
     # render single post template
     return render_template(
         'single-post.html',
-        post=post
+        post=post,
+        loggedIn=session.get('loggedIn')
     )
