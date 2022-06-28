@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 from urllib.parse import quote_plus as urlquote # need to include password this way because it contains '@'
+from flask import g 
 
 load_dotenv()
 
@@ -14,3 +15,22 @@ password = getenv('DB_PASSWORD')
 engine = create_engine('mysql+pymysql://root:%s@localhost/python_news_db' % urlquote(password), echo=True, pool_size=20, max_overflow=0) # manages the overall connection to the database
 Session = sessionmaker(bind=engine) # generates temporary connections for performing CRUD operations
 Base = declarative_base() # helps us map the models to real MySQL tables
+
+def init_db(app):
+    Base.metadata.create_all(engine)
+
+    app.teardown_appcontext(close_db)
+
+def get_db():
+    if 'db' not in g:
+        # store db connection in app context
+        g.db = Session()
+
+    return g.db
+
+def close_db(e=None):
+    # pop() method attempts to find and remove db from the g object. 
+    db = g.pop('db', None)
+
+    if db is not None: # If db exists (that is, db doesn't equal None), then db.close() will end the connection.
+        db.close()
