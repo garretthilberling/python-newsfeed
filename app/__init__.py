@@ -22,9 +22,6 @@ def create_app(test_config=None):
 
     # app.run(debug=True)
 
-    if __name__ == "__main__":
-        app.run(threaded=True, host='0.0.0.0')
-
     # register routes
     app.register_blueprint(home)
     app.register_blueprint(dashboard)
