@@ -20,7 +20,7 @@ def create_app(test_config=None):
         PROPAGATE_EXCEPTIONS=True
     )
 
-    app.run(debug=True)
+    # app.run(debug=True)
 
     if __name__ == "__main__":
         app.run(threaded=True, host='0.0.0.0')
