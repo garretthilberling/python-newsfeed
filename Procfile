@@ -1,1 +1,1 @@
-web: gunicorn -w 4 "app.app:create_app()" -t 120
+web: gunicorn -w 3 "0.0.0.0:8000" app.app:app
