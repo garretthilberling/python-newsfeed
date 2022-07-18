@@ -1,1 +1,1 @@
-web: gunicorn app.app:app
+web: gunicorn python-newsfeed.app:app
