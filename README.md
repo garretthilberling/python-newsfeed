@@ -19,7 +19,7 @@ Here is a demonstration of how to use this app:
 
 
 ## Installation
-No installation is required to use this application. Simply access via the deployed Heroku URL: https://python-tech-news-hilberling.herokuapp.com/ (currently troubleshooting)
+No installation is required to use this application. Simply access via the deployed Heroku URL: https://python-tech-news-hilberling.herokuapp.com/
 
 ## Questions
 If you have any questions about this project, please contact me via my GitHub: https://github.com/garretthilberling
